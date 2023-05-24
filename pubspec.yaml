@@ -46,6 +46,7 @@ dependencies:
   socket_io_client: ^2.0.0-beta.4-nullsafety.0
   flutter_polyline_points: ^1.0.0
   dio: ^4.0.6
+  material: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:
