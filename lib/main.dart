@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
-import 'package:web_buses/bloc/buses/buses_bloc.dart';
-import 'package:web_buses/bloc/stops/stops_bloc.dart';
+import 'package:web_buses/bloc/bus/bus_bloc.dart';
+import 'package:web_buses/bloc/stop/stop_bloc.dart';
 import 'package:web_buses/routes.dart';
 import 'package:web_buses/services/socket_service.dart';
 
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
             : windowData.textScaleFactor);
     return MultiProvider(
       providers: [
-        BlocProvider(create: (_) => StopsBloc()),
-        BlocProvider(create: (_) => BusesBloc()),
+        BlocProvider(create: (_) => StopBloc()),
+        BlocProvider(create: (_) => BusBloc()),
         ChangeNotifierProvider(create: (_) => SocketService()),
       ],
       child: Builder(builder: (context) {

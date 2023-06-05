@@ -19,7 +19,7 @@ class SocketService with ChangeNotifier {
   void _initConfig() {
     // Dart client
     _socket = IO.io('https://api-buses.onrender.com/', {
-      'transports': ['websocket'],
+      'transports': ['polling'],
       'autoConnect': false
     });
 

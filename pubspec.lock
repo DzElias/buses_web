@@ -161,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
+  fixnum:
+    dependency: transitive
+    description:
+      name: fixnum
+      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -214,14 +222,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.19"
-  flutter_polyline_points:
-    dependency: "direct main"
-    description:
-      name: flutter_polyline_points
-      sha256: "02699e69142f51a248d784b6e3eec524194467fca5f7c4da19699ce2368b6980"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -328,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.13"
+  material:
+    dependency: "direct main"
+    description:
+      name: material
+      sha256: "7f3a2edadf60e3a8771b843baff931d4b2e7205d015059c3abe315344f23dfa4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+2"
   material_color_utilities:
     dependency: transitive
     description:
@@ -472,14 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  polyline_do:
+  polyline_codec:
     dependency: "direct main"
     description:
-      name: polyline_do
-      sha256: "41b7a4c3d3f259816764d577beba843e683f59117958c51e90a5ca975ff3d298"
+      name: polyline_codec
+      sha256: "97e72f458612ea7f384bca47580ac1432ef11781fe5b05e228b656ee0536a28d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.6"
   positioned_tap_detector_2:
     dependency: transitive
     description:
