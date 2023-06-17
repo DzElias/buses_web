@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:web_buses/bloc/bus/bus_bloc.dart';
+import 'package:web_buses/bloc/stop/stop_bloc.dart';
 import 'package:web_buses/models/bus.dart';
+import 'package:web_buses/models/stop.dart';
 
 class BusInfo extends StatelessWidget {
   final String busID;
@@ -129,26 +132,26 @@ class BusInfo extends StatelessWidget {
                                                           FontWeight.bold))),
                                         ]))
                                 : const SizedBox(),
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(
-                            //       horizontal: 20, vertical: 5),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //     children: [
-                            //       Text("Proxima parada:",
-                            //           style: GoogleFonts.openSans(
-                            //               textStyle: TextStyle(
-                            //                   color: Colors.black87,
-                            //                   fontWeight: FontWeight.w600))),
-                            //       Text(
-                            //           "${getStopByID(bus.nextStop, context).title}",
-                            //           style: GoogleFonts.openSans(
-                            //               textStyle: TextStyle(
-                            //                   color: Colors.black87,
-                            //                   fontWeight: FontWeight.bold))),
-                            //     ],
-                            //   ),
-                            // ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Proxima parada:",
+                                      style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w600))),
+                                  Text(getStopByID(bus.nextStop, context).title,
+                                      style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.bold))),
+                                ],
+                              ),
+                            ),
                             // Padding(
                             //   padding: const EdgeInsets.symmetric(
                             //       horizontal: 20, vertical: 5),
@@ -270,5 +273,11 @@ class BusInfo extends StatelessWidget {
   Bus getBusById(String busID, List<Bus> buses) {
     Bus busReturn = buses[buses.indexWhere((element) => busID == element.id)];
     return busReturn;
+  }
+
+  Stop getStopByID(nextStop, BuildContext ctx) {
+    var state =
+        Provider.of<StopBloc>(ctx, listen: false).state as StopsLoadedState;
+    return state.stops.firstWhere((element) => element.id == nextStop);
   }
 }
