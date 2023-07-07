@@ -1,7 +1,6 @@
 import 'package:flutter/Material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-
 import 'package:latlong2/latlong.dart';
 import 'package:polyline_codec/polyline_codec.dart';
 import 'package:web_buses/bloc/bus/bus_bloc.dart';
@@ -11,27 +10,29 @@ import 'package:web_buses/models/stop.dart';
 import 'package:web_buses/pages/widgets/bus-stop-marker.dart';
 import 'package:web_buses/pages/widgets/bus_info.dart';
 import 'package:web_buses/pages/widgets/colors_box.dart';
-import 'package:web_buses/utils/busRoutes.dart';
 import 'package:web_buses/utils/cachedTileProvider.dart';
 
+// ignore: constant_identifier_names
 const MAPBOX_ACCESS_TOKEN =
     'pk.eyJ1IjoiZWxpYXNkaWF6MTAwNSIsImEiOiJja3o4c3Nla20xbnBrMnBwMTN4cXpuOGYxIn0.wfniiVLrGVbimAqr_OKyMg';
+// ignore: constant_identifier_names
 const MAPBOX_STYLE = 'mapbox/light-v10';
+// ignore: constant_identifier_names
 const MARKER_COLOR = Colors.blueAccent;
 
 List<AssetImage> images = [
-  AssetImage("assets/bus-point-green.png"),
-  AssetImage(
+  const AssetImage("assets/bus-point-green.png"),
+  const AssetImage(
     "assets/bus-point-yellow.png",
   ),
-  AssetImage("assets/bus-point-blue-accent.png"),
-  AssetImage("assets/bus-point-brown.png"),
-  AssetImage("assets/bus-point-red.png"),
-  AssetImage("assets/bus-point-purple.png"),
-  AssetImage("assets/bus-point-greenAccent.png"),
-  AssetImage("assets/bus-point-blue.png"),
-  AssetImage("assets/bus-point-orange.png"),
-  AssetImage("assets/bus-point-blueGray.png"),
+  const AssetImage("assets/bus-point-blue-accent.png"),
+  const AssetImage("assets/bus-point-brown.png"),
+  const AssetImage("assets/bus-point-red.png"),
+  const AssetImage("assets/bus-point-purple.png"),
+  const AssetImage("assets/bus-point-greenAccent.png"),
+  const AssetImage("assets/bus-point-blue.png"),
+  const AssetImage("assets/bus-point-orange.png"),
+  const AssetImage("assets/bus-point-blueGray.png"),
 ];
 
 class MapWidget extends StatefulWidget {
@@ -42,12 +43,13 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
+  // ignore: avoid_init_to_null
   Stop? stopSelected = null;
   String busSelected = "";
   @override
   Widget build(BuildContext context) {
     MapOptions mapOptions = MapOptions(
-        center: LatLng(-25.5161428, -54.6418963),
+        center: const LatLng(-25.5161428, -54.6418963),
         zoom: 14,
         minZoom: 6,
         interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate);
@@ -57,7 +59,6 @@ class _MapWidgetState extends State<MapWidget> {
         return [];
       }
       List<Marker> markerList = [];
-      bool istapped = false;
 
       for (int i = 0; i < stops.length; i++) {
         Stop stop = stops[i];
@@ -74,14 +75,14 @@ class _MapWidgetState extends State<MapWidget> {
                     });
 
                     var stopSel = stopSelected;
-                    await Future.delayed(Duration(seconds: 5))
+                    await Future.delayed(const Duration(seconds: 5))
                         .then((value) => setState(() {
                               if (stopSelected == stopSel) {
                                 stopSelected = null;
                               }
                             }));
                   },
-                  child: BusStopMarker());
+                  child: const BusStopMarker());
             }));
       }
 
@@ -113,7 +114,7 @@ class _MapWidgetState extends State<MapWidget> {
                       });
 
                       var busSel = busSelected;
-                      await Future.delayed(Duration(seconds: 5))
+                      await Future.delayed(const Duration(seconds: 5))
                           .then((value) => setState(() {
                                 if (busSelected == busSel) {
                                   busSelected = "";
@@ -153,14 +154,14 @@ class _MapWidgetState extends State<MapWidget> {
                                   width: 300,
                                   decoration: BoxDecoration(
                                       color: Colors.deepPurpleAccent.shade400,
-                                      borderRadius: BorderRadius.only(
+                                      borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(10),
                                           bottomRight: Radius.circular(10))),
                                   child: Center(
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(stopSelected!.title,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
                                               fontWeight: FontWeight.w400)),
@@ -169,18 +170,19 @@ class _MapWidgetState extends State<MapWidget> {
                                 ),
                               ],
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
+                      const SimpleAttributionWidget(
+                        source: Text('OpenStreetMap contributors'),
+                      ),
                     ],
-                    layers: [
-                      TileLayerOptions(
-                          urlTemplate:
-                              "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-                          additionalOptions: {
-                            'accessToken': MAPBOX_ACCESS_TOKEN,
-                            'id': MAPBOX_STYLE
-                          },
-                          tileProvider: const CachedTileProvider()),
-                      PolylineLayerOptions(
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.example.web_buses',
+                        tileProvider: CachedTileProvider(),
+                      ),
+                      PolylineLayer(
                           polylines: bustate.buses.map((bus) {
                         if (busCompany == "") {
                           busCompany = bus.company;
@@ -197,10 +199,8 @@ class _MapWidgetState extends State<MapWidget> {
                                     LatLng(e[0].toDouble(), e[1].toDouble()))
                                 .toList());
                       }).toList()),
-                      MarkerLayerOptions(
-                          markers: buildMarkers(stopstate.stops)),
-                      MarkerLayerOptions(
-                          markers: getActiveBuses(bustate.buses)),
+                      MarkerLayer(markers: buildMarkers(stopstate.stops)),
+                      MarkerLayer(markers: getActiveBuses(bustate.buses)),
                     ],
                   ),
                   (busSelected.isNotEmpty)
@@ -208,7 +208,7 @@ class _MapWidgetState extends State<MapWidget> {
                           busID: busSelected,
                         )
                       : const SizedBox(),
-                  ColorsBox()
+                  const ColorsBox()
                 ],
               );
             }
